@@ -198,6 +198,13 @@ export class ChatAgent extends LitElement {
           this._handleSubmit(e);
         }
       }
+      // If Alt+Enter is pressed when enterSends is false, submit the form
+      else if (e.altKey) {
+        e.preventDefault();
+        if (this._inputValue.trim()) {
+          this._handleSubmit(e);
+        }
+      }
       // Otherwise, let the default behavior occur (newline insertion)
     }
   }
@@ -250,7 +257,7 @@ export class ChatAgent extends LitElement {
                 .checked=${this._enterSends} 
                 @change=${this._toggleEnterSends}
               />
-              <span>Enter sends</span>
+              <span>Enter sends${!this._enterSends ? ' (Alt+Enter to send)' : ''}</span>
             </label>
             <button 
               type="submit" 
@@ -268,7 +275,8 @@ export class ChatAgent extends LitElement {
   static styles = css`
     :host {
       display: block;
-      max-width: 900px;
+      width: 100%;
+      max-width: 100%;
       margin: 0 auto;
       height: 100%;
       font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Source Code Pro', 'Ubuntu Mono', Consolas, monospace;
@@ -497,8 +505,8 @@ export class ChatAgent extends LitElement {
       color: var(--terminal-prompt-color);
       border: 1px solid var(--terminal-border);
       border-radius: 4px;
-      padding: 4px 12px;
-      font-size: 12px;
+      padding: 6px 16px;
+      font-size: 14px;
       cursor: pointer;
       transition: all 0.2s ease;
     }
