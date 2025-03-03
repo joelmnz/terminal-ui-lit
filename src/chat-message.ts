@@ -25,6 +25,11 @@ export class ChatMessageElement extends LitElement {
    * Renders markdown content to HTML
    */
   private renderMarkdown(content: string): string {
+    // Configure marked to treat single line breaks as <br>
+    marked.setOptions({
+      breaks: true
+    });
+    
     const result = marked(content);
     if (result instanceof Promise) {
       throw new Error('Markdown rendering returned a Promise');
